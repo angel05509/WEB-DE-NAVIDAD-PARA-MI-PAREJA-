@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MI LITTLE IRISU ❤️ Nuestro Libro de Aventuras</title>
+  
+  <!-- Fuentes Románticas de Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,400..800;1,400..700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Lienzos para animación de nieve suave y fuegos artificiales -->
+  <canvas id="snow-canvas"></canvas>
+  <canvas id="fireworks-canvas"></canvas>
+
+  <!-- ======================================================================
+       🎵 SECCIÓN DE MÚSICA (CANCION DE LA WEB)
+       ======================================================================
+       👉 CÓMO CAMBIAR LA CANCIÓN:
+       1. Guarda tu canción en formato MP3 dentro de la carpeta:
+          assets/audio/
+       2. Nómbrala exactamente: cancion.mp3
+       3. O si prefieres otro nombre, cámbialo aquí en 'src="assets/audio/tu_cancion.mp3"'
+       4. Más abajo puedes cambiar el nombre de la canción que aparece en pantalla.
+       ====================================================================== -->
+  <audio id="bg-music-audio" src="assets/audio/cancion.mp3" preload="auto" loop></audio>
+
+  <!-- Reproductor Romántico Flotante (Solo botón de reproducir para ella) -->
+  <div class="audio-player-pill" title="Nuestra música">
+    <div class="vinyl-disc" id="vinyl-disc"></div>
+    <div class="player-info">
+      <!-- ✏️ AQUÍ PUEDES CAMBIAR EL NOMBRE DE LA CANCIÓN O EL MENSAJE: -->
+      <span class="player-title" id="player-song-title">Nuestra Canción Favorita</span>
+      <span class="player-subtitle">Toca para escuchar 🎵</span>
+    </div>
+    <button class="player-btn" id="music-toggle-btn" aria-label="Reproducir música">▶</button>
+  </div>
+
+  <!-- Contenedor Principal del Libro de Aventuras (Scrapbook) -->
+  <main class="scrapbook-container">
+
+    <!-- ======================================================================
+         PORTADA / ENCABEZADO DEL DIARIO
+         ====================================================================== -->
+    <header class="hero-journal">
+      <div class="washi-tape"></div>
+      <div class="washi-tape right"></div>
+      
+      <!-- ✏️ TÍTULOS Y DEDICATORIAS PRINCIPALES: -->
+      <p class="hero-subtitle-top">Para el amor de mi vida</p>
+      <h1 class="hero-title">Nuestro Libro de Aventuras</h1>
+      <p class="hero-tagline">"Cada momento a tu lado se convierte en mi recuerdo favorito... Hecho con todo mi amor para mi Little Irisu."</p>
+      
+      <div class="hero-badges-row">
+        <span class="hero-badge">📖 Escribiendo mi libro de vida </span>
+        <span class="hero-badge">❤️ Amor  Eterno </span>
+        <span class="hero-badge">🎄 Navidad atraves del internet</span>
+        <span class="hero-badge">✨ Momentos unicos e inolvidables</span>
+      </div>
+
+      <!-- ====================================================================
+           ⏳ CUENTA REGRESIVA PARA NOCHEBUENA (24 DE DICIEMBRE A MEDIANOCHE)
+           ==================================================================== -->
+      <section class="countdown-box">
+        <h2 class="countdown-header">⏳ Cuenta Regresiva para Nochebuena</h2>
+        <p class="countdown-target-desc">Esperando el 24 de Diciembre a Medianoche para celebrar juntos</p>
+        
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <span class="countdown-num" id="count-days">00</span>
+            <span class="countdown-label">Días</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-num" id="count-hours">00</span>
+            <span class="countdown-label">Horas</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-num" id="count-mins">00</span>
+            <span class="countdown-label">Minutos</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-num" id="count-secs">00</span>
+            <span class="countdown-label">Segundos</span>
+          </div>
+        </div>
+
+        <div class="countdown-actions">
+          <button class="fireworks-btn" id="btn-test-fireworks">
+            🎆 Ver Fuegos Artificiales
+          </button>
+        </div>
+      </section>
+    </header>
+
+    <!-- ======================================================================
+         💌 SECCIÓN INICIAL: SOBRES INTERACTIVOS & CARTITAS
+         ======================================================================
+         Al hacer clic en cada sobre, se abre la solapa y sale la cartita con
+         su foto y texto describiendo cuánto disfrutas su compañía.
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-inicio">
+      <div class="washi-tape"></div>
+      <div class="pushpin"></div>
+
+      <div class="section-header">
+        <span class="chapter-number">Prólogo</span>
+        <h2 class="section-title">Cartitas & Recuerdos del Corazón</h2>
+        <p class="section-dedication">Toca cada sobre para abrirlo y descubrir una sorpresa especial que guardo para ti.</p>
+      </div>
+
+      <div class="envelopes-row">
+        
+        <!-- ✉️ SOBRE 1:
+             Para cambiar la foto: reemplaza el archivo en "assets/img/sobres/sobre1.jpg"
+             o cambia el src="assets/img/sobres/tu_foto.jpg" aquí abajo: -->
+        <div class="envelope-card" id="envelope-1">
+          <div class="envelope-wrapper">
+            <div class="envelope-flap"></div>
+            <div class="envelope-seal-btn">💌</div>
+            <div class="envelope-letter">
+              <!-- 📸 FOTO SOBRE 1: -->
+              <img src="assets/img/sobres/sobre1.svg" alt="Recuerdo de amor" class="envelope-letter-img">
+              <!-- ✏️ TEXTO SOBRE 1: -->
+              <p class="envelope-letter-text">
+                "Desde el primer instante en que empezamos a platicar, sentí una conexión tan pura. Disfruto cada segundo a tu lado, tu risa ilumina mis días más difíciles y me llena de vida."
+              </p>
+            </div>
+            <div class="envelope-pocket">
+              <span class="envelope-tag">Para Ti ❤️</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✉️ SOBRE 2:
+             Para cambiar la foto: reemplaza el archivo en "assets/img/sobres/sobre2.jpg"
+             o cambia el src="assets/img/sobres/tu_foto.jpg" aquí abajo: -->
+        <div class="envelope-card" id="envelope-2">
+          <div class="envelope-wrapper">
+            <div class="envelope-flap blush"></div>
+            <div class="envelope-seal-btn">💖</div>
+            <div class="envelope-letter">
+              <!-- 📸 FOTO SOBRE 2: -->
+              <img src="assets/img/sobres/sobre2.svg" alt="Recuerdo tierno" class="envelope-letter-img">
+              <!-- ✏️ TEXTO SOBRE 2: -->
+              <p class="envelope-letter-text">
+                "No hay lugar en el mundo donde me sienta más en paz que cuando estoy contigo. Disfruto tanto tu compañía; estar a tu lado hace que el tiempo vuele y siempre quiera más."
+              </p>
+            </div>
+            <div class="envelope-pocket blush">
+              <span class="envelope-tag">Mi Lugar Seguro 🌸</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✉️ SOBRE 3:
+             Para cambiar la foto: reemplaza el archivo en "assets/img/sobres/sobre3.jpg"
+             o cambia el src="assets/img/sobres/tu_foto.jpg" aquí abajo: -->
+        <div class="envelope-card" id="envelope-3">
+          <div class="envelope-wrapper">
+            <div class="envelope-flap deep"></div>
+            <div class="envelope-seal-btn">✨</div>
+            <div class="envelope-letter">
+              <!-- 📸 FOTO SOBRE 3: -->
+              <img src="assets/img/sobres/sobre3.svg" alt="Recuerdo especial" class="envelope-letter-img">
+              <!-- ✏️ TEXTO SOBRE 3: -->
+              <p class="envelope-letter-text">
+                "Amo tu forma de ser, tus ocurrencias, tu dulzura y cómo me haces sentir tan amado. Eres la casualidad más bonita que el destino puso en mi camino."
+              </p>
+            </div>
+            <div class="envelope-pocket deep">
+              <span class="envelope-tag">Mi Casualidad Bonita 🌹</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- POLAROIDS ESTÁTICAS DE INICIO -->
+      <div class="static-memories-row">
+        
+        <!-- Polaroid Estática 1 -->
+        <div class="polaroid-face polaroid-tilt-left" style="position:relative; min-height: 340px;">
+          <div class="washi-tape" style="top:-10px; left:20px; width:100px;"></div>
+          <div class="polaroid-photo-wrapper" style="height:220px;">
+            <!-- 📸 FOTO ESTÁTICA 1: -->
+            <img src="assets/img/diversion/foto1.svg" alt="Sonrisas juntos" class="polaroid-img">
+          </div>
+          <!-- ✏️ TÍTULO Y TEXTO: -->
+          <p class="polaroid-caption">Tu compañía es mi regalo favorito</p>
+          <p style="font-family: var(--font-note); font-size: 1rem; color: var(--text-muted); text-align: center; margin-top: 4px;">
+            Cualquier momento ordinario se vuelve inolvidable si es contigo.
+          </p>
+        </div>
+
+        <!-- Polaroid Estática 2 -->
+        <div class="polaroid-face polaroid-tilt-right" style="position:relative; min-height: 340px;">
+          <div class="washi-tape right" style="top:-10px; right:20px; width:100px;"></div>
+          <div class="polaroid-photo-wrapper" style="height:220px;">
+            <!-- 📸 FOTO ESTÁTICA 2: -->
+            <img src="assets/img/salidas/foto2.svg" alt="Paseos de la mano" class="polaroid-img">
+          </div>
+          <!-- ✏️ TÍTULO Y TEXTO: -->
+          <p class="polaroid-caption">A tu lado no existen los días grises</p>
+          <p style="font-family: var(--font-note); font-size: 1rem; color: var(--text-muted); text-align: center; margin-top: 4px;">
+            Gracias por llenar cada instante de sonrisas sinceras y cariño.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ⏳ LAPSO DE TIEMPO 1
+         ====================================================================== -->
+    <div class="time-lapse-connector">
+      <div class="time-lapse-badge">
+        <span class="time-lapse-period">⏳ Capítulo 1 • Días de Pura Alegría</span>
+        <span class="time-lapse-phrase">Donde aprendimos a reír hasta que nos doliera el estómago</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         🤣 SECCIÓN 1: DIVERSIÓN
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-diversion">
+      <div class="washi-tape"></div>
+      <div class="sticker-heart">🎉</div>
+
+      <div class="section-header">
+        <span class="chapter-number">Capítulo I</span>
+        <h2 class="section-title">Nuestra Diversión & Risas</h2>
+        <p class="section-dedication">Toca cualquier foto para darle la vuelta y leer la memoria que hay detrás.</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <!-- ====================================================
+             📸 TARJETA DIVERSIÓN 1:
+             - Foto del frente: src="assets/img/diversion/foto1.svg" (o tu foto .jpg)
+             - Reverso: Texto que se lee al voltear la tarjeta
+             ==================================================== -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-left">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/diversion/foto1.svg" alt="Diversión juntos" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Risas que curan el alma 😂</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <!-- REVERSO (NOTAS ESCRITAS A MANO): -->
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Siempre Contigo</span>
+                <span class="back-stamp">✨</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Amo cuando nos reímos de cualquier tontería que nadie más entendería. Nuestras caras chistosas, las miradas cómplices y esa forma tan tuya de hacerme sonreír incluso cuando tengo un mal día."
+              </p>
+              <div class="back-signature">Te amo infinito ❤️</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================
+             📸 TARJETA DIVERSIÓN 2:
+             - Foto del frente: src="assets/img/diversion/foto2.svg" (o tu foto .jpg)
+             ==================================================== -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-right">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/diversion/foto2.svg" alt="Travesuras" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Cómplices de Todo 🤪</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Momentos Épicos</span>
+                <span class="back-stamp">🍕</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Contigo nunca hay momentos aburridos. Somos el mejor equipo para hacer travesuras, cantar canciones a todo pulmón y disfrutar de cada ocurrencia juntos."
+              </p>
+              <div class="back-signature">Mi payasita favorita 💕</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================
+             📸 TARJETA DIVERSIÓN 3:
+             - Foto del frente: src="assets/img/diversion/foto3.svg" (o tu foto .jpg)
+             ==================================================== -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/diversion/foto3.svg" alt="Felicidad pura" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Felicidad Inolvidable ✨</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Nuestra Magia</span>
+                <span class="back-stamp">💫</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Estar a tu lado me hace sentir como un niño pequeño otra vez, lleno de curiosidad y alegría. Verte sonreír de oreja a oreja es el espectáculo más bonito del mundo."
+              </p>
+              <div class="back-signature">Por siempre juntos 💖</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ⏳ LAPSO DE TIEMPO 2
+         ====================================================================== -->
+    <div class="time-lapse-connector">
+      <div class="time-lapse-badge">
+        <span class="time-lapse-period">⏳ Capítulo 2 • La Chispa que Nunca se Apaga</span>
+        <span class="time-lapse-phrase">Soñando despiertos y planeando todo un futuro juntos</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         🚀 SECCIÓN 2: ENTUSIASMO
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-entusiasmo">
+      <div class="washi-tape right"></div>
+      <div class="sticker-heart">🚀</div>
+
+      <div class="section-header">
+        <span class="chapter-number">Capítulo II</span>
+        <h2 class="section-title">Nuestro Entusiasmo & Sueños</h2>
+        <p class="section-dedication">Esa energía tan bonita con la que soñamos y conquistamos cada meta juntos.</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <!-- 📸 TARJETA ENTUSIASMO 1: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-right">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/entusiasmo/foto1.svg" alt="Nuestros Sueños" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Planes que nos Ilusionan 🌟</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Metas Compartidas</span>
+                <span class="back-stamp">✈️</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Amo la chispa en tus ojitos cada vez que me cuentas un sueño nuevo, un proyecto o un viaje que queremos hacer. Esa pasión tuya me contagia y me hace desear llegar lejísimos a tu lado."
+              </p>
+              <div class="back-signature">Tú y yo al infinito 💫</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA ENTUSIASMO 2: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-left">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/entusiasmo/foto2.svg" alt="Nuestra Energía" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">La Emoción de Verte 💓</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Mariposas en el Estómago</span>
+                <span class="back-stamp">💌</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Aunque nos veamos todos los días, sigo sintiendo esa emoción hermosa antes de encontrarnos. Arreglarme para verte y esperar tu llegada sigue siendo mi parte favorita de la semana."
+              </p>
+              <div class="back-signature">Siempre enamorado de ti 🌹</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA ENTUSIASMO 3: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/entusiasmo/foto3.svg" alt="Conquistar el Mundo" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Comernos el Mundo 🌍</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Nuestro Futuro</span>
+                <span class="back-stamp">🚀</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Juntos no hay reto que nos quede grande. Tu fuerza me inspira todos los días a ser mejor persona y a creer que lo imposible es solo cuestión de tiempo si vamos de la mano."
+              </p>
+              <div class="back-signature">Contigo todo es posible ❤️</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ⏳ LAPSO DE TIEMPO 3
+         ====================================================================== -->
+    <div class="time-lapse-connector">
+      <div class="time-lapse-badge">
+        <span class="time-lapse-period">⏳ Capítulo 3 • La Calidez de Nuestro Refugio</span>
+        <span class="time-lapse-phrase">Donde el mundo exterior se apaga y solo existimos tú y yo</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         🌙 SECCIÓN 3: DORMIR
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-dormir">
+      <div class="washi-tape center"></div>
+      <div class="sticker-heart">🌙</div>
+
+      <div class="section-header">
+        <span class="chapter-number">Capítulo III</span>
+        <h2 class="section-title">La Paz de Dormir Juntitos</h2>
+        <p class="section-dedication">Esas tardes de siesta, cobijitas calientes y la tranquilidad de tenerte entre mis brazos.</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <!-- 📸 TARJETA DORMIR 1: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-left">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/dormir/foto1.svg" alt="Siestas Juntos" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Siestas Interminables 💤</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Tardes de Lluvia</span>
+                <span class="back-stamp">☁️</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Verte dormir con esa carita tan tierna y angelical es una de las cosas más hermosas de mi vida. Me da una paz que no encuentro en ninguna otra parte del mundo."
+              </p>
+              <div class="back-signature">Mi bebita consentida 🌸</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA DORMIR 2: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-right">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/dormir/foto2.svg" alt="Abrazados en el Frío" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Abrazaditos en el Frío 🧸</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Calorcito Tuyo</span>
+                <span class="back-stamp">☕</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "No importa el frío que haga afuera cuando estamos cobijados, abrazados y escuchando nuestra respiración. Eres el lugar más tibio y seguro del universo."
+              </p>
+              <div class="back-signature">Tu eterno abrazador 💕</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA DORMIR 3: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/dormir/foto3.svg" alt="Desveladas de Amor" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Pláticas de Madrugada 🌌</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 3:00 AM</span>
+                <span class="back-stamp">✨</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Esas llamadas y pláticas hasta la madrugada donde nos confesamos todo, compartimos recuerdos y nos quedamos dormidos con el teléfono al lado. Dulces sueños, mi amor."
+              </p>
+              <div class="back-signature">Sueño contigo siempre 🌙</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ⏳ LAPSO DE TIEMPO 4
+         ====================================================================== -->
+    <div class="time-lapse-connector">
+      <div class="time-lapse-badge">
+        <span class="time-lapse-period">⏳ Capítulo 4 • Creciendo Juntos en Cada Paso</span>
+        <span class="time-lapse-phrase">Superando exámenes, desvelos de estudio y celebrando cada logro</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         📚 SECCIÓN 4: ESCUELA
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-escuela">
+      <div class="washi-tape"></div>
+      <div class="sticker-heart">📚</div>
+
+      <div class="section-header">
+        <span class="chapter-number">Capítulo IV</span>
+        <h2 class="section-title">Nuestra Vida en la Escuela</h2>
+        <p class="section-dedication">Tardes de estudio, apoyo mutuo cuando el semestre se ponía difícil y el orgullo de verte triunfar.</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <!-- 📸 TARJETA ESCUELA 1: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-right">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/escuela/foto1.svg" alt="Estudiando Juntos" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">El Mejor Equipo de Estudio ✍️</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Semestre Superado</span>
+                <span class="back-stamp">✏️</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Hacer tareas y proyectos contigo convirtió las materias pesadas en momentos divertidos. Aunque a veces nos distrajéramos riéndonos, siempre nos apoyamos al 100%."
+              </p>
+              <div class="back-signature">Orgulloso de ti 🎓</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA ESCUELA 2: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-left">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/escuela/foto2.svg" alt="Apoyo en Exámenes" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Café, Apuntes & Ánimo ☕</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Días de Presión</span>
+                <span class="back-stamp">💡</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Cuando los exámenes te estresaban, solo quería abrazarte y recordarte lo inteligente y capaz que eres. Verte superar cada reto me llena de admiración total."
+              </p>
+              <div class="back-signature">Tu fan número 1 💖</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA ESCUELA 3: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/escuela/foto3.svg" alt="Celebrando Logros" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Celebrando Cada Meta 🏆</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Éxito Compartido</span>
+                <span class="back-stamp">🌟</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Cada diez, cada materia aprobada y cada paso que das en tu carrera es una fiesta para mí. Estoy seguro de que vas a lograr todo lo que te propongas en la vida."
+              </p>
+              <div class="back-signature">Siempre a tu lado ❤️</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ⏳ LAPSO DE TIEMPO 5
+         ====================================================================== -->
+    <div class="time-lapse-connector">
+      <div class="time-lapse-badge">
+        <span class="time-lapse-period">⏳ Capítulo 5 • Nuestras Salidas & Rincones Favoritos</span>
+        <span class="time-lapse-phrase">Coleccionando recuerdos en cada calle, restaurante y atardecer</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         🚗 SECCIÓN 5: SALIDAS
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-salidas">
+      <div class="washi-tape right"></div>
+      <div class="sticker-heart">🚗</div>
+
+      <div class="section-header">
+        <span class="chapter-number">Capítulo V</span>
+        <h2 class="section-title">Nuestras Salidas & Citas</h2>
+        <p class="section-dedication">Comer rico, caminar sin prisa tomados de la mano y descubrir que cualquier lugar es perfecto contigo.</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <!-- 📸 TARJETA SALIDAS 1: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-left">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/salidas/foto1.svg" alt="Citas Románticas" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Nuestra Cita Favorita 🍝</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Cenando Juntos</span>
+                <span class="back-stamp">🍷</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "La comida siempre sabe mejor cuando estamos juntos. Mirarte al otro lado de la mesa, platicar de nuestras cosas y reírnos me hace sentir el hombre más afortunado."
+              </p>
+              <div class="back-signature">Por mil citas más 🌹</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA SALIDAS 2: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-right">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/salidas/foto2.svg" alt="Paseos Juntos" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Caminar de Tu Mano 🤝</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Paseos Sin Rumbo</span>
+                <span class="back-stamp">🌿</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Caminar contigo por el parque, sentir tu mano entrelazada con la mía y simplemente disfrutar el momento. No necesito un destino cuando camino a tu lado."
+              </p>
+              <div class="back-signature">De tu mano siempre 💕</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA SALIDAS 3: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/salidas/foto3.svg" alt="Atardeceres Mágicos" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Atardeceres Contigo 🌅</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Hora Dorada</span>
+                <span class="back-stamp">🌇</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Ver cómo el cielo se pinta de colores mientras te miro a los ojos... El atardecer más bonito jamás podrá compararse con la luz de tu sonrisa."
+              </p>
+              <div class="back-signature">Eres mi cielo entero ❤️</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ⏳ LAPSO DE TIEMPO 6
+         ====================================================================== -->
+    <div class="time-lapse-connector">
+      <div class="time-lapse-badge">
+        <span class="time-lapse-period">⏳ Capítulo 6 • Nuestro Amor de Cuatro Patas</span>
+        <span class="time-lapse-phrase">Nuestra pequeña manada y la ternura de nuestras perritas</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         🐶 SECCIÓN 6: PERRITAS
+         ====================================================================== -->
+    <section class="journal-section" id="seccion-perritas">
+      <div class="washi-tape"></div>
+      <div class="sticker-paw">🐾</div>
+
+      <div class="section-header">
+        <span class="chapter-number">Capítulo VI</span>
+        <h2 class="section-title">Nuestras Perritas Consentidas</h2>
+        <p class="section-dedication">Las dueñas de nuestros corazones, con sus colitas felices, patitas y travesuras.</p>
+      </div>
+
+      <div class="cards-grid">
+        
+        <!-- 📸 TARJETA PERRITAS 1: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-right">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/perritas/foto1.svg" alt="Nuestras Perritas" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Las Reinas de la Casa 👑🐶</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Familia Completa</span>
+                <span class="back-stamp">🐾</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Ver cómo las amas, cómo las cuidas y cómo se vuelven locas de felicidad cuando nos ven. Me encanta ver tu ternura y cómo hemos formado esta familia tan linda."
+              </p>
+              <div class="back-signature">Nuestras bebitas peludas ❤️</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA PERRITAS 2: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front polaroid-tilt-left">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/perritas/foto2.svg" alt="Amor Incondicional" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Colitas Felices 🐕💕</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Amor Puro</span>
+                <span class="back-stamp">🦴</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Sus lengüetazos, sus juegos y cómo nos siguen por todos lados. No hay nada más tierno que verte acostada con ellas dándoles amor y apapachos."
+              </p>
+              <div class="back-signature">La mejor mamá perruna 🌸</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📸 TARJETA PERRITAS 3: -->
+        <div class="polaroid-flip-card">
+          <div class="polaroid-inner">
+            <div class="polaroid-face polaroid-front">
+              <div class="card-tools">
+                <button class="tool-btn tool-zoom" title="Ampliar">🔍</button>
+              </div>
+              <div class="polaroid-photo-wrapper">
+                <!-- 📸 FOTO: -->
+                <img src="assets/img/perritas/foto3.svg" alt="Paseos Perrunos" class="polaroid-img">
+              </div>
+              <p class="polaroid-caption">Paseos en Manada 🐾✨</p>
+              <div class="card-hint-flip">🔄 Toca para girar la foto</div>
+            </div>
+            <div class="polaroid-face polaroid-back">
+              <div class="back-header">
+                <span class="back-date">📅 Aventuras de 4 Patas</span>
+                <span class="back-stamp">🌿</span>
+              </div>
+              <!-- ✏️ TU TEXTO DEL REVERSO: -->
+              <p class="back-note-text">
+                "Salir a caminar todos juntos, cuidándolas y disfrutando del día. Cada una de ellas forma una parte invaluable de nuestros recuerdos de este año."
+              </p>
+              <div class="back-signature">Siempre juntos los cuatro 💕</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         💌 GRAN FINAL: LA CARTA ANIMADA DE NAVIDAD
+         ======================================================================
+         Al hacer clic en el sello de cera ❤️ se rompe el sello, brotan corazones
+         y se despliega la carta en pergamino con la foto de ustedes dos juntos.
+         ====================================================================== -->
+    <section class="final-letter-section" id="seccion-carta-final">
+      <div class="washi-tape center"></div>
+      
+      <p class="final-letter-header">El Deseo Más Hermoso de Mi Vida</p>
+      <h2 class="final-letter-sub">Una Carta Especial Para Ti</h2>
+
+      <!-- Sobre Sellado Interactivo -->
+      <div class="sealed-envelope-box" id="sealed-envelope-trigger" title="Haz clic para abrir la carta">
+        <div class="sealed-envelope">
+          <div class="wax-seal">
+            ❤️
+          </div>
+        </div>
+        <p class="open-letter-instruction">✨ Toca el sobre para abrir mi carta de Navidad ✉️</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       📜 VENTANA MODAL DE LA CARTA DE NAVIDAD (SE ABRE AL TOCAR EL SOBRE)
+       ====================================================================== -->
+  <div class="letter-modal-overlay" id="letter-modal-overlay">
+    <div class="letter-parchment">
+      <button class="letter-close-btn" id="letter-close-btn" title="Cerrar carta">✕</button>
+      
+      <!-- ✏️ ENCABEZADO DE LA CARTA: -->
+      <p class="letter-salutation">Mi amor, mi princesa</p>
+      <h3 class="letter-recipient">Little Irisu ❤️</h3>
+
+      <!-- ✏️ TU CARTA DE AMOR COMPLETA: -->
+      <div class="letter-body">
+        <p>
+          Mirar hacia atrás y recorrer todo este año a tu lado me hace darme cuenta de lo inmensamente afortunado que soy de tenerte en mi vida. Hemos compartido tantas cosas: risas interminables que nos alegraron los días, proyectos y sueños que encendieron nuestra chispa, tardes de descanso donde solo existíamos tú y yo, el esfuerzo mutuo superando la escuela, salidas inolvidables donde el tiempo se detenía, y el amor más tierno junto a nuestras hermosas perritas.
+        </p>
+        <p style="margin-top: 14px;">
+          Cada día que pasa me convenzo más de que no hay nadie como tú. Eres mi refugio, mi alegría, mi compañera de vida y la dueña absoluta de mi corazón. No imagino mis días sin tu sonrisa, sin tu voz ni sin tus abrazos que todo lo curan.
+        </p>
+        <p style="margin-top: 14px;">
+          Esta Navidad, mi único y más grande deseo no viene envuelto en papel de regalo: mi regalo eres tú. Quiero prometerte que cuidaré de ti, te apoyaré en cada paso y te amaré con todas las fuerzas de mi alma.
+        </p>
+      </div>
+
+      <!-- ====================================================================
+           📸 FOTO DE LOS DOS DENTRO DE LA CARTA FINAL:
+           Para cambiarla:
+           1. Guarda tu foto en "assets/img/final/foto-pareja.jpg" (o .png)
+           2. Y cambia abajo 'src="assets/img/final/tu_foto.jpg"'
+           ==================================================================== -->
+      <div class="letter-photo-frame">
+        <img src="assets/img/final/foto-pareja.svg" alt="Nosotros Juntos en Navidad" class="letter-couple-img">
+        <p class="letter-photo-caption">Tú y Yo Por Siempre en Navidad ✨</p>
+      </div>
+
+      <!-- Pregunta interactiva para pasar más navidades juntos -->
+      <div class="letter-question-box">
+        <p class="letter-question">¿Me concederías el honor de pasar muchísimas más Navidades juntos por siempre?</p>
+        <button class="letter-promise-btn" id="letter-promise-btn">
+          ¡Sí, mil navidades más juntos! ❤️💍
+        </button>
+      </div>
+
+      <p class="letter-closing">Con todo mi amor por siempre,<br>Tu novio que te adora 💕</p>
+    </div>
+  </div>
+
+  <!-- Modal Lightbox para Ampliar Fotos al presionar la Lupa 🔍 -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <div class="lightbox-card-container">
+      <div class="polaroid-face" style="padding: 16px 16px 24px;">
+        <div class="polaroid-photo-wrapper" style="height: 380px;">
+          <img src="" alt="Recuerdo ampliado" class="polaroid-img" id="lightbox-img">
+        </div>
+        <p class="polaroid-caption" id="lightbox-caption" style="margin-top: 15px;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lógica de animaciones e interactividad -->
+  <script src="js/main.js"></script>
+</body>
+</html>

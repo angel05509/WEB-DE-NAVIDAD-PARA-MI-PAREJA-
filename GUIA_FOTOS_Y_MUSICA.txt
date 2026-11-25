@@ -1,0 +1,80 @@
+==============================================================
+❤️ GUÍA EXCLUSIVA PARA TI: CÓMO CAMBIAR FOTOS Y MÚSICA ❤️
+              (Desde los archivos de tu carpeta)
+==============================================================
+
+Hola. Como me pediste, la página web quedó 100% limpia y mágica:
+ella NO podrá cambiar nada desde la web (no hay botones de subida
+ni herramientas a la vista). Solo tú tienes el control directo desde
+los archivos.
+
+Aquí tienes todo organizado paso a paso:
+
+--------------------------------------------------------------
+1. CÓMO PONER TU CANCIÓN FAVORITA (MP3) 🎵
+--------------------------------------------------------------
+Opción Recomendada:
+1. Copia tu canción en formato MP3 y pégala dentro de la carpeta:
+   PAGINA NAVIDAD/assets/audio/
+2. Cámbiale el nombre para que se llame:
+   cancion.mp3
+3. ¡Listo! Al abrir la página web y darle al botón "▶", sonará tu canción.
+
+Si quieres cambiar el título que se ve en la pantalla:
+- Abre "NAVIDAD CON MI PRINCESA.html" en el Bloc de Notas o cualquier editor.
+- Busca la línea donde dice:
+  <span class="player-title" id="player-song-title">Nuestra Canción Favorita</span>
+- Cambia "Nuestra Canción Favorita" por el nombre de su canción o una frase de amor.
+
+*(Nota: Si no pones canción MP3, la web tiene un piano romántico de respaldo).*
+
+--------------------------------------------------------------
+2. CÓMO CAMBIAR LAS FOTOS DESDE LAS CARPETAS 📸
+--------------------------------------------------------------
+Dentro de "PAGINA NAVIDAD/assets/img/" tienes las carpetas de cada sección:
+
+📁 assets/img/sobres/
+   - sobre1.svg (o sobre1.jpg) -> Foto que sale del 1er sobre
+   - sobre2.svg (o sobre2.jpg) -> Foto que sale del 2do sobre
+   - sobre3.svg (o sobre3.jpg) -> Foto que sale del 3er sobre
+
+📁 assets/img/diversion/
+   - foto1.svg, foto2.svg, foto3.svg -> Las 3 fotos de la sección Diversión
+
+📁 assets/img/entusiasmo/
+   - foto1.svg, foto2.svg, foto3.svg -> Las 3 fotos de la sección Entusiasmo
+
+📁 assets/img/dormir/
+   - foto1.svg, foto2.svg, foto3.svg -> Las 3 fotos de la sección Dormir
+
+📁 assets/img/escuela/
+   - foto1.svg, foto2.svg, foto3.svg -> Las 3 fotos de la sección Escuela
+
+📁 assets/img/salidas/
+   - foto1.svg, foto2.svg, foto3.svg -> Las 3 fotos de la sección Salidas
+
+📁 assets/img/perritas/
+   - foto1.svg, foto2.svg, foto3.svg -> Las 3 fotos de sus perritas
+
+📁 assets/img/final/
+   - foto-pareja.svg (o foto-pareja.jpg) -> LA FOTO DE USTEDES DOS DENTRO DE LA CARTA FINAL
+
+👉 PASO SENCILLO PARA PONER TUS FOTOS:
+1. Toma tu foto (por ejemplo una foto de ustedes riendo).
+2. Guárdala en la carpeta que quieras (ej: "assets/img/diversion/").
+3. Abre "NAVIDAD CON MI PRINCESA.html".
+4. Verás comentarios claros con emojis como este:
+   <!-- 📸 FOTO DIVERSIÓN 1: -->
+   <img src="assets/img/diversion/foto1.svg" ...>
+5. Simplemente cambia "foto1.svg" por el nombre de tu foto, por ejemplo:
+   <img src="assets/img/diversion/mi_foto_con_ella.jpg" ...>
+
+--------------------------------------------------------------
+3. CÓMO CAMBIAR LOS TEXTOS O FECHAS EN EL HTML ✏️
+--------------------------------------------------------------
+Dentro de "NAVIDAD CON MI PRINCESA.html", cada sección tiene comentarios claros:
+- Puedes cambiar los mensajes que dicen cuánto disfrutas su compañía.
+- Puedes cambiar las dedicatorias al reverso de cada tarjeta polaroid.
+- Puedes cambiar la gran carta de amor final que se abre con el sello ❤️.
+
+¡Todo listo y probado para que le des la mejor sorpresa de Navidad! 🎄✨❤️
