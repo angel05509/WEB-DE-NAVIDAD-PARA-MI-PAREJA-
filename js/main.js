@@ -16,6 +16,9 @@ class FireworksEngine {
     this.rockets = [];
     this.isRunning = false;
     this.timer = null;
+    this.stopTimeout = null;
+    this.clearTimeout = null;
+    this.animFrameId = null;
     this.audioCtx = null;
     
     this.resize();
@@ -60,22 +63,28 @@ class FireworksEngine {
   start(durationSeconds = 12) {
     this.initAudio();
     this.isRunning = true;
-    this.canvas.style.pointerEvents = 'auto';
-    
+
     if (this.timer) clearInterval(this.timer);
+    if (this.stopTimeout) clearTimeout(this.stopTimeout);
+    if (this.clearTimeout) clearTimeout(this.clearTimeout);
+
     this.timer = setInterval(() => {
       if (!this.isRunning) return;
       this.launchRocket();
     }, 400);
 
     for (let i = 0; i < 4; i++) {
-      setTimeout(() => this.launchRocket(), i * 200);
+      setTimeout(() => {
+        if (this.isRunning) this.launchRocket();
+      }, i * 200);
     }
 
-    this.animate();
+    if (!this.animFrameId) {
+      this.animate();
+    }
 
     if (durationSeconds > 0) {
-      setTimeout(() => {
+      this.stopTimeout = setTimeout(() => {
         this.stop();
       }, durationSeconds * 1000);
     }
@@ -84,16 +93,17 @@ class FireworksEngine {
   stop() {
     this.isRunning = false;
     if (this.timer) clearInterval(this.timer);
-    setTimeout(() => {
+    this.clearTimeout = setTimeout(() => {
+      if (this.isRunning) return;
       this.particles = [];
       this.rockets = [];
       if (this.ctx) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      if (this.canvas) this.canvas.style.pointerEvents = 'none';
     }, 1500);
   }
 
   launchRocket() {
-    const x = Math.random() * (this.canvas.width - 200) + 100;
+    const margin = Math.min(80, this.canvas.width * 0.15);
+    const x = margin + Math.random() * Math.max(40, this.canvas.width - margin * 2);
     const targetY = Math.random() * (this.canvas.height * 0.45) + 80;
     const colors = ['#ff4d6d', '#ffd166', '#06d6a0', '#118ab2', '#ff758f', '#ffffff'];
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -152,11 +162,15 @@ class FireworksEngine {
   animate() {
     if (!this.isRunning && this.particles.length === 0 && this.rockets.length === 0) {
       if (this.ctx) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.animFrameId = null;
       return;
     }
 
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+    this.ctx.save();
+    this.ctx.globalCompositeOperation = 'destination-out';
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.restore();
 
     for (let i = this.rockets.length - 1; i >= 0; i--) {
       const r = this.rockets[i];
@@ -194,7 +208,7 @@ class FireworksEngine {
       this.ctx.restore();
     }
 
-    requestAnimationFrame(() => this.animate());
+    this.animFrameId = requestAnimationFrame(() => this.animate());
   }
 }
 
@@ -209,9 +223,11 @@ class RomanticMusicPlayer {
     this.playBtn = document.getElementById('music-toggle-btn');
     this.vinyl = document.getElementById('vinyl-disc');
     this.songTitle = document.getElementById('player-song-title');
+    this.songSubtitle = document.querySelector('.player-subtitle');
     
     this.isPlaying = false;
     this.isSynthesized = false;
+    this.audioUnavailable = false;
     this.synthCtx = null;
     this.synthTimer = null;
 
@@ -224,12 +240,17 @@ class RomanticMusicPlayer {
     }
 
     if (this.audio) {
-      this.audio.addEventListener('play', () => this.setPlayingState(true));
-      this.audio.addEventListener('pause', () => this.setPlayingState(false));
+      this.audio.addEventListener('play', () => this.setPlayingState(true, false));
+      this.audio.addEventListener('pause', () => {
+        if (!this.isSynthesized) this.setPlayingState(false);
+      });
       this.audio.addEventListener('ended', () => this.setPlayingState(false));
       this.audio.addEventListener('error', () => {
-        console.log("Audio MP3 listo para colocarse en assets/audio/cancion.mp3. Sintetizador de respaldo activo.");
+        this.audioUnavailable = true;
       });
+      if (this.audio.error) {
+        this.audioUnavailable = true;
+      }
     }
   }
 
@@ -242,13 +263,19 @@ class RomanticMusicPlayer {
   }
 
   play() {
-    if (this.audio && this.audio.src && !this.audio.src.endsWith('#')) {
+    const canTryAudio = this.audio &&
+      !this.audioUnavailable &&
+      this.audio.src &&
+      !this.audio.src.endsWith('#') &&
+      this.audio.networkState !== HTMLMediaElement.NETWORK_NO_SOURCE;
+
+    if (canTryAudio) {
       const playPromise = this.audio.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          this.setPlayingState(true);
-        }).catch(err => {
-          console.warn("Iniciando melodía dulce de piano:", err);
+          this.setPlayingState(true, false);
+        }).catch(() => {
+          this.audioUnavailable = true;
           this.startSynthesizerMelody();
         });
       }
@@ -258,17 +285,28 @@ class RomanticMusicPlayer {
   }
 
   pause() {
-    if (this.audio) {
+    if (this.audio && !this.audio.paused) {
       this.audio.pause();
     }
     this.stopSynthesizerMelody();
     this.setPlayingState(false);
   }
 
-  setPlayingState(playing) {
+  setPlayingState(playing, synthesized = this.isSynthesized) {
     this.isPlaying = playing;
     if (this.playBtn) {
       this.playBtn.innerHTML = playing ? '❚❚' : '▶';
+      this.playBtn.setAttribute('aria-label', playing ? 'Pausar música' : 'Reproducir música');
+      this.playBtn.setAttribute('aria-pressed', String(playing));
+    }
+    if (this.songSubtitle) {
+      if (!playing) {
+        this.songSubtitle.textContent = 'Toca para escuchar 🎵';
+      } else if (synthesized) {
+        this.songSubtitle.textContent = 'Melodía de piano activa 🎹';
+      } else {
+        this.songSubtitle.textContent = 'Reproduciendo... 🎶';
+      }
     }
     if (this.vinyl) {
       if (playing) {
@@ -282,6 +320,10 @@ class RomanticMusicPlayer {
   startSynthesizerMelody() {
     this.isSynthesized = true;
     const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) {
+      this.setPlayingState(false);
+      return;
+    }
     if (!this.synthCtx) {
       this.synthCtx = new AudioContext();
     }
@@ -289,7 +331,7 @@ class RomanticMusicPlayer {
       this.synthCtx.resume();
     }
 
-    this.setPlayingState(true);
+    this.setPlayingState(true, true);
 
     const chords = [
       [261.63, 329.63, 392.00, 523.25], // Do mayor
@@ -534,7 +576,23 @@ document.addEventListener('DOMContentLoaded', () => {
     letterCloseBtn.addEventListener('click', () => {
       letterModal.classList.remove('active');
     });
+    letterModal.addEventListener('click', (e) => {
+      if (e.target === letterModal) {
+        letterModal.classList.remove('active');
+      }
+    });
   }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (lightboxModal && lightboxModal.classList.contains('active')) {
+        lightboxModal.classList.remove('active');
+      }
+      if (letterModal && letterModal.classList.contains('active')) {
+        letterModal.classList.remove('active');
+      }
+    }
+  });
 
   if (promiseBtn) {
     promiseBtn.addEventListener('click', () => {

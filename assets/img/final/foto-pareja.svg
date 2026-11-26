@@ -37,10 +37,10 @@
   </g>
 
   <!-- Title & Subtitle -->
-  <text x="210.0" y="305" text-anchor="middle" font-family="'Caveat', cursive, sans-serif" font-size="28" font-weight="bold" fill="#ffffff" letter-spacing="1">
+  <text x="210.0" y="296" text-anchor="middle" font-family="'Caveat', cursive, sans-serif" font-size="27" font-weight="bold" fill="#ffffff" letter-spacing="0.8">
     Tú y Yo Por Siempre
   </text>
-  <text x="210.0" y="330" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="13" font-weight="500" fill="rgba(255,255,255,0.9)">
+  <text x="210.0" y="322" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="13" font-weight="500" fill="rgba(255,255,255,0.92)">
     Nuestra Navidad Juntos
   </text>
 

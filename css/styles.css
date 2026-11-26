@@ -71,18 +71,19 @@ body {
 /* Floating Audio Player Bar */
 .audio-player-pill {
   position: fixed;
-  top: 18px;
-  right: 18px;
+  bottom: 20px;
+  right: 20px;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
   border: 2px solid var(--blush-pink);
   border-radius: 40px;
-  padding: 8px 18px;
-  box-shadow: 0 8px 24px rgba(201, 24, 74, 0.15);
+  padding: 8px 16px;
+  box-shadow: 0 8px 24px rgba(201, 24, 74, 0.18);
   display: flex;
   align-items: center;
   gap: 12px;
+  max-width: calc(100vw - 32px);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -180,7 +181,7 @@ body {
   background: #ffffff;
   border-radius: 20px;
   padding: 45px 30px;
-  margin-top: 50px;
+  margin-top: 24px;
   margin-bottom: 50px;
   box-shadow: 0 15px 45px var(--paper-shadow);
   position: relative;
@@ -285,7 +286,7 @@ body {
 
 .countdown-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 18px;
 }
@@ -467,7 +468,8 @@ body {
    ========================================================== */
 .envelopes-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  align-items: start;
   gap: 28px;
   margin-bottom: 35px;
 }
@@ -481,33 +483,36 @@ body {
 .envelope-wrapper {
   position: relative;
   width: 100%;
-  height: 270px;
-  background: #fdfaf6;
+  min-height: 210px;
+  background: transparent;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  overflow: visible;
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .envelope-wrapper:hover {
   transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(164, 19, 60, 0.2);
 }
 
 /* Envelope Body */
 .envelope-pocket {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 180px;
+  height: 210px;
   background: linear-gradient(135deg, #c9184a 0%, #a4133c 100%);
-  border-radius: 0 0 16px 16px;
+  border-radius: 16px;
   z-index: 4;
   box-shadow: inset 0 3px 6px rgba(0,0,0,0.15);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 18px;
+  padding: 16px;
+  transition: height 0.45s ease, border-radius 0.45s ease;
 }
 
 .envelope-pocket.blush {
@@ -518,16 +523,23 @@ body {
   background: linear-gradient(135deg, #800f2f 0%, #590d22 100%);
 }
 
+.envelope-card.is-open .envelope-pocket {
+  height: 60px;
+  border-radius: 0 0 16px 16px;
+  align-items: center;
+  padding: 10px 16px;
+}
+
 .envelope-flap {
   position: absolute;
-  top: 90px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 90px;
+  height: 115px;
   background: #a4133c;
   clip-path: polygon(0 0, 50% 100%, 100% 0);
   transform-origin: top;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
   z-index: 5;
 }
 
@@ -541,53 +553,57 @@ body {
 
 .envelope-card.is-open .envelope-flap {
   transform: rotateX(180deg);
+  opacity: 0;
+  pointer-events: none;
   z-index: 2;
 }
 
-/* Inside Letter Card (Slides Out) */
+/* Inside Letter Card (Expands Cleanly on Open) */
 .envelope-letter {
-  position: absolute;
-  top: 50px;
-  left: 5%;
-  width: 90%;
-  height: 210px;
+  position: relative;
+  width: 100%;
+  max-height: 0;
+  opacity: 0;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  padding: 16px;
-  z-index: 3;
-  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 16px 16px 0 0;
+  padding: 0 16px;
+  z-index: 6;
+  transition: max-height 0.55s ease, opacity 0.4s ease, padding 0.4s ease;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   overflow: hidden;
-  border: 1px dashed var(--blush-pink);
+  border: 0 solid var(--blush-pink);
 }
 
 .envelope-card.is-open .envelope-letter {
-  transform: translateY(-90px);
-  z-index: 6;
-  height: 260px;
+  max-height: 680px;
+  opacity: 1;
+  padding: 16px;
+  border: 1px dashed var(--blush-pink);
+  border-bottom: none;
 }
 
 .envelope-letter-img {
   width: 100%;
-  height: 120px;
+  aspect-ratio: 7 / 6;
+  height: auto;
+  max-height: 240px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 10px;
 }
 
 .envelope-letter-text {
   font-family: var(--font-hand);
-  font-size: 1.15rem;
+  font-size: 1.22rem;
   color: var(--text-dark);
-  line-height: 1.35;
-  overflow-y: auto;
+  line-height: 1.38;
+  text-align: center;
 }
 
 .envelope-seal-btn {
   position: absolute;
-  top: 135px;
+  top: 115px;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 44px;
@@ -600,7 +616,7 @@ body {
   justify-content: center;
   font-size: 18px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  z-index: 6;
+  z-index: 7;
   transition: all 0.3s;
 }
 
@@ -620,7 +636,7 @@ body {
 /* Static Polaroids alongside envelopes */
 .static-memories-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 25px;
   margin-top: 25px;
 }
@@ -630,13 +646,13 @@ body {
    ========================================================== */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 30px;
 }
 
 .polaroid-flip-card {
   perspective: 1200px;
-  min-height: 420px;
+  height: 420px;
 }
 
 .polaroid-inner {
@@ -654,19 +670,23 @@ body {
 
 /* Front & Back Faces */
 .polaroid-face {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
   border-radius: 12px;
   background: #ffffff;
   padding: 16px 16px 24px;
   box-shadow: 0 8px 24px var(--paper-shadow);
   display: flex;
   flex-direction: column;
+}
+
+.polaroid-inner .polaroid-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Front Face */
@@ -685,16 +705,27 @@ body {
 .polaroid-photo-wrapper {
   position: relative;
   width: 100%;
-  height: 270px;
+  aspect-ratio: 7 / 6;
   border-radius: 8px;
   overflow: hidden;
   background: #f0ebe1;
+}
+
+.static-memories-row .polaroid-face {
+  height: 100%;
+  justify-content: flex-start;
+}
+
+.static-memories-row .polaroid-photo-wrapper {
+  height: 230px;
+  aspect-ratio: auto;
 }
 
 .polaroid-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   transition: transform 0.4s ease;
 }
 
@@ -704,14 +735,15 @@ body {
 
 .polaroid-caption {
   font-family: var(--font-hand);
-  font-size: 1.55rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: var(--text-dark);
+  color: var(--deep-red);
   text-align: center;
-  margin-top: 14px;
+  margin-top: 12px;
   line-height: 1.2;
+  width: 100%;
+  background: transparent;
 }
-
 .card-hint-flip {
   font-family: var(--font-note);
   font-size: 0.85rem;
@@ -964,7 +996,7 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 20px;
-  padding: 45px 35px;
+  padding: 52px 35px 40px;
   position: relative;
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
   border: 8px solid #f2e8cf;
@@ -1038,7 +1070,8 @@ body {
 
 .letter-couple-img {
   width: 100%;
-  height: 280px;
+  height: auto;
+  max-height: 280px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -1118,14 +1151,44 @@ body {
 .lightbox-card-container {
   max-width: 500px;
   width: 100%;
-  perspective: 1200px;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-card-container .polaroid-face {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 16px 16px 22px;
+  align-items: center;
+}
+
+.lightbox-card-container .polaroid-photo-wrapper {
+  width: 100%;
+  aspect-ratio: auto;
+  height: auto;
+  max-height: 68vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f3eb;
+}
+
+.lightbox-card-container .polaroid-img {
+  width: 100%;
+  height: auto;
+  max-height: 68vh;
+  object-fit: contain;
+  object-position: center;
 }
 
 .lightbox-close {
   position: absolute;
-  top: 25px;
-  right: 25px;
-  background: rgba(255,255,255,0.2);
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.22);
   color: #fff;
   border: none;
   width: 44px;
@@ -1133,6 +1196,16 @@ body {
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lightbox-close:hover {
+  background: var(--primary-red);
+  transform: scale(1.08);
 }
 
 /* Photo Customizer Floating Widget */
@@ -1190,22 +1263,36 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .hero-journal {
+    padding: 36px 20px;
+    margin-top: 18px;
+  }
   .hero-title {
     font-size: 2.2rem;
   }
   .hero-subtitle-top {
     font-size: 1.8rem;
   }
+  .hero-tagline {
+    font-size: 1.35rem;
+  }
   .section-title {
     font-size: 1.9rem;
   }
+  .section-dedication {
+    font-size: 1.25rem;
+  }
   .audio-player-pill {
-    top: 10px;
-    right: 10px;
+    bottom: 14px;
+    right: 14px;
     padding: 6px 12px;
+    gap: 10px;
+  }
+  .player-title {
+    font-size: 1.05rem;
   }
   .countdown-num {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
   .countdown-header {
     font-size: 1.4rem;
@@ -1213,16 +1300,50 @@ body {
   .journal-section {
     padding: 30px 16px;
   }
+  .polaroid-flip-card {
+    height: 400px;
+  }
   .polaroid-face {
     padding: 12px 12px 18px;
   }
+  .back-note-text {
+    font-size: 1.28rem;
+    line-height: 1.4;
+  }
+  .sealed-envelope {
+    height: 220px;
+  }
   .letter-parchment {
-    padding: 30px 18px;
+    padding: 54px 20px 28px;
+  }
+  .letter-close-btn {
+    top: 12px;
+    right: 12px;
   }
   .letter-salutation {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
   }
   .letter-body {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
+    text-align: left;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-journal {
+    padding: 32px 14px;
+  }
+  .countdown-box {
+    padding: 20px 14px;
+  }
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .countdown-label {
+    letter-spacing: 0.8px;
+  }
+  .time-lapse-badge {
+    padding: 8px 16px;
   }
 }
